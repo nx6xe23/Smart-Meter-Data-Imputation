@@ -28,6 +28,9 @@ def clean_df(df):
     """
     This function takes a pandas dataframe as input and returns a cleaned dataframe.
     """
+    if len(df.columns) == 2:
+        return df
+
     df['DateTime'] = df['DateTime'].apply(split_date)
 
     df.drop_duplicates(keep='first', inplace=True)
@@ -37,9 +40,12 @@ def clean_df(df):
     start_time, end_time = df['DateTime'].min(), df['DateTime'].max()
     times = timeseries(start_time, end_time)
 
+    row_list = []
     for time in times:
         if time not in df['DateTime'].values:
-            df = pd.concat([df, pd.DataFrame({'DateTime': [time], 'KWh': [np.nan]})], ignore_index=True)
+            row_list.append({'DateTime': time, 'KWh': np.nan})
     
+    new_df = pd.DataFrame(row_list, columns=['DateTime', 'KWh'])
+    df = pd.concat([df, new_df], ignore_index=True, sort=False)
     df.sort_values(by='DateTime', inplace=True)
-    return
+    return df
