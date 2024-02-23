@@ -30,28 +30,24 @@ cluster_sizes = []
 for i in tqdm(missing_files):
     df = pd.read_csv(i)
     missing_idx = df[df['KWh'].isnull()].index.tolist()
-    cluster_len = 0
+    cluster_len = 1
 
-    for j in range(len(missing_idx)):
-        if j == len(missing_idx) - 1:
-            if missing_idx[j] - missing_idx[j-1] > 1:
-                random += 1
-                if cluster_len != 0:
-                    cluster_sizes.append(cluster_len)
-                cluster_len = 0
-            else:
-                cluster += 1
-                cluster_len += 1
-                cluster_sizes.append(cluster_len)
-
-        elif missing_idx[j+1] - missing_idx[j] > 1:
+    for j in range(len(missing_idx)-1):
+        if missing_idx[j+1] - missing_idx[j] > 1:
             random += 1
-            if cluster_len != 0:
+            if cluster_len != 1:
                 cluster_sizes.append(cluster_len)
-            cluster_len = 0
+            cluster_len = 1
         else:
             cluster += 1
             cluster_len += 1
+
+    if cluster_len != 1:
+        cluster += 1
+        cluster_sizes.append(cluster_len)
+    else:
+        random += 1
+
 
 print('Random Missing Data:', f'{(random/(random+cluster)*100):.2f}%')
 print('Cluster Missing Data:', f'{(cluster/(random+cluster)*100):.2f}%')
