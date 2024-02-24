@@ -44,7 +44,7 @@ This uses the mean and variance of the already incomplete dataset to remove data
 
 ## Linear, Historical and Weighted Average Imputation
 
-For the missing values, between index $i$ and $j$ with values $x_i$ and $x_j$ respectively, the imputed values are denoted by $\hat{x}_k = \cfrac{(x_j - x_i) \cdot (k - i + 1)}{j - i + 2} + x_i \; $ for $i < k < j$. 
+For the missing values, between index $i$ and $j$ with values $x_i$ and $x_j$ respectively, the imputed values are denoted by $\hat{x}_k = \cfrac{(x_j - x_i) \cdot (k - i + 1)}{j - i + 2} + x_i$  for $i < k < j$. 
 
 ```
 python linear_imputation.py
