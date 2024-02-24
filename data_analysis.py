@@ -11,11 +11,15 @@ missing_files = []
 missing, total = 0, 0
 
 for i in tqdm(list_addr):
-    file = pd.read_csv(i)['KWh']
+    file = pd.read_csv(i)
+    file = file.drop(file[file['KWh'] == 'Null'].index)
+    file = file['KWh']
     if file.isnull().values.any() == True:
         missing += file.isnull().values.sum()
         total += file.size
         missing_files.append(i)
+        continue
+    if len(file) == 0:
         continue
     write_file.write(i + '\n')
 

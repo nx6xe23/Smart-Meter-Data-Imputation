@@ -10,7 +10,7 @@ file = open('./data/london_data/complete_households.txt')
 complete_hh = [i.split('\n')[0] for i in file.readlines()]
 
 seed = 123
-mean, var = 56.18-1, 61490.90
+mean, var = 56.19-1, 61508.03
 log_mu, log_sigma = utils.lognorm_params(mean, var)
 rand_p, clus_p = 0.002, 0.008/(mean+1)
 
@@ -22,6 +22,7 @@ os.mkdir('./data/london_dataset')
 
 for i in tqdm(complete_hh):
     df = pd.read_csv('./data/london_data/' + i)
+    df = df.drop(df[df['KWh'] == 'Null'].index)
     idx_to_nan = []
     # Creating clusters of missing datapoints
     num_clus = int(len(df) * clus_p) + random.randint(-int(len(df) * clus_p * 0.1), int(len(df) * clus_p * 0.1))
@@ -51,6 +52,6 @@ for i in tqdm(complete_hh):
 
     df.to_csv('./data/london_dataset/full_' + i.split('MAC')[1], index=False)
     for idx in idx_to_nan:
-        df.loc[idx, 'KWh'] = np.nan
-    df.to_csv('./data/london_dataset/miss' + i.split('MAC')[1], index=False)
+        df.iloc[idx, 1] = np.nan
+    df.to_csv('./data/london_dataset/miss_' + i.split('MAC')[1], index=False)
     

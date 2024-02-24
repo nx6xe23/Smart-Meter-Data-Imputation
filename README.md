@@ -26,7 +26,7 @@ python data_analysis.py
 For analyzing the dataset, first we find which of the households have no missing data points. This is saved in `complete_households.txt` file in the `data/london_data/` folder. The percentage of missing values in the non complete households is calculated. Furthermore, the ratio of random and clustered missing data values is calculated. The mean and the variance of the cluster sizes is also calculated. The mean is calculated using $\bar{x} = \cfrac{\sum x_i}{n}$ and the variance is $\sigma^2 = \cfrac{\sum(x_i - \bar{x})^2}{n-1}$. 
 
 
-The average missing data is 0.38% for the non-complete households, of which 21.79% and 78.21% are random and cluster missing data. The average length of a cluster is 56.18 and the variance is 61490.90. 
+The average missing data is 0.38% for the non-complete households, of which 21.79% and 78.21% are random and cluster missing data. The average length of a cluster is 56.19 and the variance is 61508.03. 
 
 ---
 
@@ -39,5 +39,34 @@ python creating_dataset.py
 ```
 
 This uses the mean and variance of the already incomplete dataset to remove datapoints from complete household data. 1% of the data is removed per dataset of which 20% will correspond to the random missing data points and the rest 80% will denote the cluster missing values. Furthermore to find the length of the cluster, we use the log normal distribution $X = e^{\mu + \sigma Z}$ where $Z$ is the standard normal variable. To calculate $\mu$ and $\sigma$ we use the statistically derived mean and variance for $X$. This python script will remove these clusters and random missing data points making sure there are no conflicts.
+
+---
+
+## Linear, Historical and Weighted Average Imputation
+
+For the missing values, between index $i$ and $j$ with values $x_i$ and $x_j$ respectively, the imputed values are denoted by $\hat{x}_k = \cfrac{(x_j - x_i) \cdot (k - i + 1)}{j - i + 2} + x_i \; $ for $i < k < j$. 
+
+```
+python linear_imputation.py
+```
+
+For the historical average imputation, we look at the average readings across different years during the same days and time. For this we have chosen $\pm2$ years, $\pm8$ days and $\pm 1.5$ hours. The average of these values is taken as the imputed value.
+
+```
+python hist_avg_imputation.py
+```
+
+Weighted average imputation uses the previous two methods two impute the missing data with a weight parameter $w_i = e^{-\alpha d_i}$. The imputed value for this method is $\hat{y}_i = w_i \cdot \hat{y}^{LI}_i + (1 - w_i) \cdot \hat{y}^{HA}_i$. The best performing value of $\alpha$ was $\alpha = 1.05$ based on the $R^2$ score. 
+
+```
+python weighted_avg_imputation.py
+````
+The results for the following imputation techniques are as follows, 
+
+| Error | LI | HA | WA | 
+| :----- | -- | -- | -- |
+| MAE | 0.1318 | 0.1183 | 0.1066 | 
+| RMSE | 0.2127 | 0.1862 | 0.1723 | 
+| $R^2$ score | -0.0777 | 0.1749 | 0.2798 | 
 
 ---
