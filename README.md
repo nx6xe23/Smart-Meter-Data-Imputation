@@ -29,3 +29,15 @@ For analyzing the dataset, first we find which of the households have no missing
 The average missing data is 0.38% for the non-complete households, of which 21.79% and 78.21% are random and cluster missing data. The average length of a cluster is 56.18 and the variance is 61490.90. 
 
 ---
+
+## Creating Missing Dataset from Complete Dataset
+
+Run the following python script to remove datapoints from the complete household dataset. 
+
+```
+python creating_dataset.py
+```
+
+This uses the mean and variance of the already incomplete dataset to remove datapoints from complete household data. 1% of the data is removed per dataset of which 20% will correspond to the random missing data points and the rest 80% will denote the cluster missing values. Furthermore to find the length of the cluster, we use the log normal distribution $X = e^{\mu + \sigma Z}$ where $Z$ is the standard normal variable. To calculate $\mu$ and $\sigma$ we use the statistically derived mean and variance for $X$. This python script will remove these clusters and random missing data points making sure there are no conflicts.
+
+---

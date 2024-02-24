@@ -49,3 +49,8 @@ def clean_df(df):
     df = pd.concat([df, new_df], ignore_index=True, sort=False)
     df.sort_values(by='DateTime', inplace=True)
     return df
+
+def lognorm_params(mean, var):
+    sigma = np.sqrt(np.log(var/(mean**2) + 1))
+    mu = np.log(mean) - 0.5 * sigma**2
+    return mu, sigma
