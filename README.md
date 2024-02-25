@@ -56,7 +56,7 @@ For the historical average imputation, we look at the average readings across di
 python hist_avg_imputation.py
 ```
 
-Weighted average imputation uses the previous two methods two impute the missing data with a weight parameter $w_i = e^{-\alpha d_i}$. The imputed value for this method is $\hat{y}_i = w_i \cdot \hat{y}^{LI}_i + (1 - w_i) \cdot \hat{y}^{HA}_i$. The best performing value of $\alpha$ was $\alpha = 1.05$ based on the $R^2$ score. 
+Weighted average imputation uses the previous two methods two impute the missing data with a weight parameter $w_i = e^{-\alpha d_i}$ where $\alpha$ is a hyperparameter and $d_i$ is the distance to the closest non-missing data point. The imputed value for this method is $\hat{y}_i = w_i \cdot \hat{y}^{LI}_i + (1 - w_i) \cdot \hat{y}^{HA}_i$. The best performing value of $\alpha$ was $\alpha = 1.05$ based on the $R^2$ score. 
 
 ```
 python weighted_avg_imputation.py
