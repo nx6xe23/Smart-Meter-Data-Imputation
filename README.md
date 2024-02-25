@@ -44,7 +44,7 @@ This uses the mean and variance of the already incomplete dataset to remove data
 
 ## Linear, Historical and Weighted Average Imputation
 
-For the missing values, between index $i$ and $j$ with values $x_i$ and $x_j$ respectively, the imputed values are denoted by $\hat{x}_k = \cfrac{(x_j - x_i) \cdot (k - i + 1)}{j - i + 2} + x_i$  for $i < k < j$. 
+For the missing values, between index $i$ and $j$ with values $x_i$ and $x_j$ respectively, the imputed values are denoted by $\hat{x}_k = \cfrac{(x_j - x_i) \cdot (k - i)}{j - i} + x_i$  for $i < k < j$. 
 
 ```
 python linear_imputation.py
@@ -68,5 +68,37 @@ The results for the following imputation techniques are as follows,
 | MAE | 0.1318 | 0.1183 | 0.1066 | 
 | RMSE | 0.2127 | 0.1862 | 0.1723 | 
 | $R^2$ score | -0.0777 | 0.1749 | 0.2798 | 
+
+---
+
+## Bilinear, KNN and Random Forest Imputation
+
+Bilinear imputation uses the linear imputation as well as it interpolates weekly, i.e., the imputation value will be the average of the linearly interpolated and weekly interpolated values. To find the weekly interpolated values, we find closest week data for which the day and time are same and interpolate using it. 
+
+$$\hat{x}^{LI}_k = \cfrac{(x_j - x_i) \cdot (k - i)}{(j - i)} + x_i \text{ for } i < k < j$$
+$$\hat{w}^{LI}_k = \cfrac{(w_j - w_i) \cdot (k - i)}{(j - i)} + w_i \text{ for } i < k < j$$
+
+And finally the imputed value will be $\hat{x}_i = (\hat{x}_i^{LI} + \hat{w}^{LI}_i)/ 2$. 
+
+```
+python bilinear_imputation.py
+```
+
+KNN imputer uses the KNN algorithm to impute the missing values, it takes the nearest neighbours of the missing value and takes their average as the imputation value.
+
+```
+python knn_imputation.py
+```
+
+For the random forest imputation method, each household energy data which is not missing is trained to a random forest and the missing dates are predicted then from the random forest. 
+
+```
+python rf_imputation.py
+```
+| Error | BI | KNN | RF | 
+| :----- | -- | -- | -- |
+| MAE | 0.1144 | 0.1573 | 0.1484 | 
+| RMSE | 0.1839 | 0.2231 | 0.2184 | 
+| $R^2$ score | 0.2192 | -0.0931 | -0.0317 | 
 
 ---

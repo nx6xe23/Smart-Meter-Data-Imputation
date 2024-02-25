@@ -131,3 +131,39 @@ def optimally_wavg_imputation(nan_idx, miss_arr, alpha):
         w = np.exp(-alpha * d[i])
         pred.append(w * pred_li[i] + (1 - w) * pred_ha[i])
     return pred
+
+
+def bilinear_imputation(nan_idx, miss_arr):
+    preds = []
+    for idx in nan_idx:
+        prev, next = idx, idx
+        while prev >= 0:
+            if prev not in nan_idx:
+                break
+            else:
+                prev -= 336
+        
+        while next < len(miss_arr):
+            if next not in nan_idx:
+                break
+            else:
+                next += 336
+
+        if prev < 0 and next >= len(miss_arr):
+            preds.append(0)
+        elif prev < 0:
+            preds.append(miss_arr[next])
+        elif next >= len(miss_arr):
+            preds.append(miss_arr[prev])
+        else:
+            preds.append(miss_arr[prev] + (miss_arr[next] - miss_arr[prev]) * (idx - prev) / (next - prev))
+        
+    pred_day = linear_interpolation(nan_idx, miss_arr)
+
+    pred = [(preds[i] + pred_day[i])/2 for i in range(len(nan_idx))]
+    return pred
+
+
+def convert_datetime_to_num(str1):
+    date = datetime.strptime(str1, '%Y-%m-%d %H:%M:%S')
+    return int(date.strftime('%Y%m%d%H%M%S'))
