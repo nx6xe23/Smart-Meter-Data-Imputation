@@ -96,6 +96,8 @@ For the random forest imputation method, each household energy data which is not
 ```
 python rf_imputation.py
 ```
+
+The results for the following imputation techniques are as follows, 
 | Error | BI | KNN | RF | 
 | :----- | -- | -- | -- |
 | MAE | 0.1144 | 0.1573 | 0.1484 | 
