@@ -76,6 +76,7 @@ The results for the following imputation techniques are as follows,
 Bilinear imputation uses the linear imputation as well as it interpolates weekly, i.e., the imputation value will be the average of the linearly interpolated and weekly interpolated values. To find the weekly interpolated values, we find closest week data for which the day and time are same and interpolate using it. 
 
 $$\hat{x}^{LI}_k = \cfrac{(x_j - x_i) \cdot (k - i)}{(j - i)} + x_i \text{ for } i < k < j$$
+
 $$\hat{w}^{LI}_k = \cfrac{(w_j - w_i) \cdot (k - i)}{(j - i)} + w_i \text{ for } i < k < j$$
 
 And finally the imputed value will be $\hat{x}_i = (\hat{x}_i^{LI} + \hat{w}^{LI}_i)/ 2$. 
