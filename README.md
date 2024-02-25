@@ -26,7 +26,7 @@ python data_analysis.py
 For analyzing the dataset, first we find which of the households have no missing data points. This is saved in `complete_households.txt` file in the `data/london_data/` folder. The percentage of missing values in the non complete households is calculated. Furthermore, the ratio of random and clustered missing data values is calculated. The mean and the variance of the cluster sizes is also calculated. The mean is calculated using $\bar{x} = \cfrac{\sum x_i}{n}$ and the variance is $\sigma^2 = \cfrac{\sum(x_i - \bar{x})^2}{n-1}$. 
 
 
-The average missing data is 0.38% for the non-complete households, of which 21.79% and 78.21% are random and cluster missing data. The average length of a cluster is 56.19 and the variance is 61508.03. 
+The average missing data is 0.38% for the non-complete households, of which 21.79% and 78.21% are random and cluster missing data. The average length of a cluster is 56.19 and the variance is 61508.03. The average half hourly reading for the complete household energy data is 0.2331. 
 
 ---
 
