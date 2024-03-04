@@ -66,7 +66,9 @@ The results for the following imputation techniques are as follows,
 | Error | LI | HA | WA | 
 | :----- | -- | -- | -- |
 | MAE | 0.1318 | 0.1183 | 0.1066 | 
+| MAPE | 107.47 | 113.30 | 105.07 | 
 | RMSE | 0.2127 | 0.1862 | 0.1723 | 
+| RMSPE | 225.12 | 226.55 | 208.81 |
 | $R^2$ score | -0.0777 | 0.1749 | 0.2798 | 
 
 ---
@@ -101,7 +103,9 @@ The results for the following imputation techniques are as follows,
 | Error | BI | KNN | RF | 
 | :----- | -- | -- | -- |
 | MAE | 0.1144 | 0.1573 | 0.1484 | 
+| MAPE | 94.89 | 160.37 | 139.44 | 
 | RMSE | 0.1839 | 0.2231 | 0.2184 | 
+| RMSPE | 206.73 | 275.72 | 251.31 | 
 | $R^2$ score | 0.2192 | -0.0931 | -0.0317 | 
 
 ---

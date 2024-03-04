@@ -10,9 +10,7 @@ import glob
 full = sorted(glob.glob('./data/london_dataset/full_*'))
 miss = sorted(glob.glob('./data/london_dataset/miss_*'))
 
-maes = []
-rmses = []
-r2_scores = []
+maes, mapes, rmses, rmspes, r2_scores = [], [], [], [], []
 
 for i in tqdm(range(len(miss))):
     df_miss = pd.read_csv(miss[i])
@@ -48,13 +46,19 @@ for i in tqdm(range(len(miss))):
     model.fit(X_train, y_train)
     pred = model.predict(X_pred)
 
-    maes.append(utils.mae(pred, actual))
-    rmses.append(utils.rmse(pred, actual))
+    maes.append(utils.mae(actual, pred))
+    mapes.append(utils.mape(actual, pred))
+    rmses.append(utils.rmse(actual, pred))
+    rmspes.append(utils.rmspe(actual, pred))
     r2_scores.append(r2_score(actual, pred))
 
 print('MAE')
 print(statistics.mean(maes))
+print('MAPE')
+print(statistics.mean(mapes))
 print('RMSE')
 print(statistics.mean(rmses))
+print('RMSPE')
+print(statistics.mean(rmspes))
 print('R2')
 print(statistics.mean(r2_scores))

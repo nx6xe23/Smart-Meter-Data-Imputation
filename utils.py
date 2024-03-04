@@ -57,16 +57,36 @@ def lognorm_params(mean, var):
     return mu, sigma
 
 
-def mae(pred, actual):
+def mae(actual, pred):
     pred_arr = np.array(pred)
     actual_arr = np.array(actual)
     return np.mean(np.abs(pred_arr - actual_arr))
 
 
-def rmse(pred, actual):
+def mape(actual, pred):
+    actual = np.array(actual)
+    loc = np.where(actual == 0)[0]
+    pred = np.array(pred)
+    if len(loc) > 0:
+        actual = np.delete(actual, loc)
+        pred = np.delete(pred, loc)
+    return np.mean(np.abs((actual - pred) / actual)) * 100
+
+
+def rmse(actual, pred):
     pred = np.asarray(pred)
     actual = np.asarray(actual)
     return np.sqrt(np.mean((pred - actual) ** 2))
+
+
+def rmspe(actual, pred):
+    actual = np.array(actual)
+    loc = np.where(actual == 0)[0]
+    pred = np.array(pred)
+    if len(loc) > 0:
+        actual = np.delete(actual, loc)
+        pred = np.delete(pred, loc)
+    return np.sqrt(np.mean(np.square((actual - pred) / actual))) * 100
 
 
 def linear_interpolation(nan_idx, miss_arr):
